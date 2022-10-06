@@ -34,8 +34,10 @@ if (@$_REQUEST["key"] != "") {
     if (!file_exists($cache)) {
         $context = stream_context_create($opts);
         $haystack = file_get_contents("https://tv.media.jio.com/streams_live/" . $_REQUEST["key"] . $token, false, $context);
+        var_dump ($haystack);
     } else {
         $haystack = file_get_contents($cache);
+        var_dump ($opts);
 
     }
     echo $haystack;
@@ -49,8 +51,16 @@ if (@$_REQUEST["ts"] != "") {
     header("Access-Control-Allow-Headers: Range");
     header("Accept-Ranges: bytes");
     $opts = ["http" => ["method" => "GET", "header" => "User-Agent: plaYtv/6.0.9 (Linux; Android 5.1.1) ExoPlayerLib/2.13.2"]];
+    var_dump ($opts);
 
     $context = stream_context_create($opts);
     $haystack = file_get_contents("https://jiotv.live.cdn.jio.com/" . $_REQUEST["ts"], false, $context);
+    var_dump ($haystack);
     echo $haystack;
 }
+//  Return the contents of the output buffer
+$htmlStr = ob_get_contents();
+// Clean (erase) the output buffer and turn off output buffering
+ob_end_clean(); 
+// Write final string to file
+file_put_contents($fileName, $htmlStr);
